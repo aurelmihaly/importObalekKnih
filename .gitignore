@@ -1,0 +1,4 @@
+serviceAccountKey.json
+tmp/
+temp_covers/
+node_modules/

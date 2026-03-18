@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta content="text/html; charset=utf-8" />
+	<meta name="Content-Language" content="cs" />
+	<meta name="author" content="Obálky knih" />
+	
+	<title>Obálky knih - Databáze obálek knih</title>
+
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta name="robots" content="index,follow" />
+	<meta name="description" lang="cs" content="" />
+	<meta itemprop="name" content="">
+	<meta itemprop="image" content="https://obalkyknih.cz">
+	<meta property="og:title" content="Obálky knih" />
+	<meta property="og:url" content="https://obalkyknih.cz" />
+	<meta property="og:image" content="https://obalkyknih.cz/skin/img/demo.png" />
+	<meta property="og:site_name" content="ObalkyKnih.cz" />
+
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	
+	<link rel="previewimage" href="https://www.obalkyknih.cz/file/cover/692975/medium" />
+	
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="/skin/fontawesome/css/fontawesome.min.css" type="text/css" />
+	<link rel="stylesheet" href="/skin/fontawesome/css/regular.min.css" type="text/css" />
+	<link rel="stylesheet" href="/skin/fontawesome/css/solid.min.css" type="text/css" />
+	<link rel="stylesheet" href="/skin/okcz.css" type="text/css" />
+
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="/js/script.js?v=3"></script>
+	<!--<script src="https://kit.fontawesome.com/08e516ff53.js" crossorigin="anonymous"></script>-->
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-lg">
+				<a id="logo" class="navbar-brand" href="/"><img src="skin/img/logo.svg" alt="Obálky knih"/></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Nabídka hlavního menu">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="nav-menu">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item me-4">
+							<a class="nav-link active" aria-current="page" href="/"><span class="fas fa-home fs-4"></span><span class="link-text">Úvod</span></a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link " href="/upload"><span class="fas fa-upload fs-4"></span><span class="link-text">Přidat obálku</span></a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="https://docs.google.com/document/d/1b2iw31p5Izs0cHyDmErETQSp4KppBVm05BBCkiw67kI/"><span class="fas fa-code fs-4"></span><span class="link-text">API a dokumentace</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link " href="/about"><span class="fas fa-circle-question fs-4"></span><span class="link-text">O projektu</span></a>
+						</li>
+					</ul>
+				</div>
+	</div>
+</nav>
+
+<!-- ^ container-lg -->
+<div class="container-lg">
+
+
+		<div class="row">
+			<div class="col-12 col-lg-4 pt-4 pb-2 head-home-left">
+				<form action="/view" id="okcz-search-form" class="form-inline">
+					<div class="input-group mb-2">
+						<div id="okcz-search-icon">
+							<i class="fas fa-search"></i>
+						</div>
+						<label for="search" class="visually-hidden">Zadejte ISBN…</label>
+						<input type="text" class="form-control" id="search" name="isbn" placeholder="Zadejte ISBN…" />
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-primary btn-okcz-primary btn-space-left">Vyhledat</button>
+						</div>
+					</div>
+				</form>
+				<p class="small">Vyhledávat v databázi titulů je možné dle ISBN, ISSN, EAN, č. ČNB, OCLC či vlastního identifikátoru. Vyhledávat lze i v databázi autorů dle <a href="http://autority.nkp.cz/" alt="Portál Národní autority ČR">id autority</a> či jména.</p>
+			</div>
+			<div class="col-12 col-md-6 col-lg-5 pt-4 pb-2 head-home-center">
+				<p>Projekt ObalkyKnih.cz sdružuje různé zdroje informací
+				o knížkách do jedné, snadno použitelné webové služby. Naše databáze v tuto chvíli obsahuje <strong>3224182 obálek</strong>
+				a <strong>983607 obsahů</strong> českých a zahraničních publikací. Naše API využívá většina knihoven v ČR. <!-- <strong>přes 5350 knihoven</strong>--></p>
+			</div>
+			<div class="col-12 col-md-6 col-lg-3 pt-4 pb-2 head-home-right">
+				
+				<form action="/login" method="post">
+					<div class="form-group mb-2">
+						<label for="login_mail" class="visually-hidden">E-mailová adresa</label>
+						<input type="text" class="form-control rounded-0" id="login_mail" name="email" placeholder="E-mailová adresa" />
+					</div>
+					<div class="form-group mb-2">
+						<div class="input-group">
+							<label for="login_pass" class="visually-hidden">Heslo</label>
+							<input type="password" class="form-control" id="login_pass" name="password" placeholder="Heslo" />
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-primary btn-okcz-primary btn-space-left">Přihlásit</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<p class="small">
+					<a href="/signup">Registrovat »</a> &nbsp;&nbsp;
+					<a href="/lostpassword">Zapomenuté heslo?</a>
+				</p>
+				
+			</div>
+		</div>
+
+<!-- ^ _header_main container row -->
+<div class="row mt-3">
+       <!-- ^ _header_main content container -->
+       <div id="text" class="container pt-3 pb-5">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ^ book title row -->
+<div class="detail row pt-2 pb-3">
+	<div class="col-12">
+		<h1>Nineteen eighty-four =: Devatenáct set osmdesát čtyři</h1>
+		
+		
+	</div>
+</div>
+<!-- $ book title row -->
+
+
+<!-- ^ detail page body row -->
+<div class="row">
+
+<!-- ^ cover col -->
+<div id="col-cover" class="col-12 col-lg-3">
+
+	<div class="row">
+		
+
+		
+		<div class="col-12 col-sm-6 col-lg-12">
+			<a href="#" data-bs-toggle="modal" data-bs-target="#coverModal" onclick="document.getElementById('coverImage').src='https://www.obalkyknih.cz/file/cover/692975/preview510'">
+				<img src="https://www.obalkyknih.cz/file/cover/692975/preview510" class="img-fluid" alt="Nineteen eighty-four =: Devatenáct set osmdesát čtyři" />
+			</a>
+			
+			
+		</div>
+		
+	</div>
+
+	<form onsubmit="return view_abuse_onsubmit();" method="post">
+		<div class="form-group mb-2">
+			<textarea name=note rows="7" id=abuse_comment class="form-control" style="display: none"
+			placeholder="** doporučujeme kontrolu isbn,cnb, ... ve Vašem katalogu, bohužel většina případů chybných obálek je problém u Vás ... díky ☺"></textarea>
+		</div>
+
+		<input type=hidden name=cover value="692975">
+		<input type=hidden name=book value="111121546">
+		<input type=hidden name=referer value="">
+
+		<div id="antispam">
+			<label for="spamQuestion">Ochrana proti spamu. Kolik je 15 + 8?</label>
+			<input id="spamQuestion" type="text" value="" name="spamQuestion" required oninvalid="this.setCustomValidity('Text nemůže být prázdný')" />
+			<script type="text/javascript"> <!--
+				document.getElementById("spamQuestion").value=(Math.round(23.7544614)-1);
+				document.getElementById("antispam").style.display = "none";
+			--></script>
+		</div>
+	
+		
+		<input name=report class="btn btn-primary btn-okcz-primary mb-4" type="submit" value=" Ohlásit chybnou obálku ">
+		
+
+	</form>
+
+
+  
+
+</div>
+<!-- $ cover col -->
+
+<!-- ^ body col -->
+<div id="col-body" class="col-12 col-lg-6 col-xl-7">
+
+	<p>
+		
+		<b>Autor: </b>Orwell, George a  Martínková, Petra<br/>
+		
+
+		
+		<b>Rok: </b>2011<br/>
+		
+
+				<b>ISBN: </b>9788025704851<br/>
+				<b>NKP-CNB: </b>cnb002220763<br/>
+				<b>OCLC Number: </b>(OCoLC)780138035<br/>
+				<b>OKCZID: </b>111121546<br/>
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	<br>
+	<a href="https://www.knihovny.cz/Record/mzk.MZK01-001187540#dedupedrecord"
+	target="knihovny.cz" title="Dokument na portálu Knihovny.cz"><img src="/img/logo-knihovny-cz.jpg" style="width: 150px;" alt="Knihovny.cz"></a> 
+	 &nbsp;&nbsp; Půjčte si tento titul v knihovně přes portál <a href="https://www.knihovny.cz/Record/mzk.MZK01-001187540#dedupedrecord"
+       target="knihovny.cz" title="Dokument na portáluKnihovny.cz">Knihovny.cz</a> 
+	<br>
+	
+
+
+
+
+		
+		<br/><b>Citace</b> (dle ČSN ISO 690):<br/>
+		ORWELL, George.  <i>Nineteen eighty-four =: Devatenáct set osmdesát čtyři. </i>Překlad Petra MARTÍNKOVÁ. Vyd. v tomto překladu a bilingvní podobě 1. Praha: Argo, 2011. 517 s.<br/>
+		
+		<div style="clear:both;"></div>
+		
+	</p>
+	
+	<p>
+		<b>Hodnocení:</b> <img src="/stars?value=80" />
+		<b>4.0 / 5</b>
+		(1 hlasů)
+	</p>
+	
+	
+	
+	<h3 class="pt-4 pb-2">Digitální objekty</h3>
+	<div class="container">
+				<div class="row">
+			<div class="d-flex justify-content-start align-items-center py-2 ">
+				<div class="col-1">
+					<a href="https://ndk.cz/view/uuid:319bb730-a81e-11e2-8b87-005056827e51"><img class="img-fluid max-height-small" src="https://registr.digitalniknihovna.cz/libraries/nkp/logo" /></a>
+				</div>
+				<div class="px-3">
+					<a href="https://ndk.cz/view/uuid:319bb730-a81e-11e2-8b87-005056827e51">Národní digitální knihovna</a>
+				</div>
+				<div>
+					<span style="font-size:60%">
+					
+					
+					
+					 (dostupn&eacute; pouze v t&eacute;to knihovn&ecaron;)
+					</span>
+				</div>
+			</div>
+		</div>
+				<div class="row">
+			<div class="d-flex justify-content-start align-items-center py-2 ">
+				<div class="col-1">
+					<a href="https://www.digitalniknihovna.cz/mzk/view/uuid:319bb730-a81e-11e2-8b87-005056827e51"><img class="img-fluid max-height-small" src="https://api.registr.digitalniknihovna.cz/libraries/mzk/logo" /></a>
+				</div>
+				<div class="px-3">
+					<a href="https://www.digitalniknihovna.cz/mzk/view/uuid:319bb730-a81e-11e2-8b87-005056827e51">Moravská zemská knihovna v Brně</a>
+				</div>
+				<div>
+					<span style="font-size:60%">
+					
+					
+					
+					 (dostupn&eacute; pouze v t&eacute;to knihovn&ecaron;)
+					</span>
+				</div>
+			</div>
+		</div>
+			</div>
+	<div class="clearfix mb-4"></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- ^ parts -->
+	
+	<!-- % parts -->
+
+
+
+
+	<br>
+	<h3 class="float-start pb-3">Anotace</h3>
+	
+		<div class="float-end"><a href="https://servis.obalkyknih.cz/anotace/index.php?bookid=111121546" class="btn btn-primary">Upravit anotaci</a></div>
+		<div class="clearfix"></div>
+		<p>
+		
+			Bilingvní vydání slavného románu (dvojjazyčná kniha). Titul je na objednávku. Expedujeme obvykle do 5 dnů. Bilingvní vydání slavného románu, který vyšel již v roce 1949 a byl inspirován stalinistickým režimem. Vize totalitní společnosti, kde není místo pro lásku, vlastní názor ani pro víru ve vlastní smysly, varuje před jakoukoli diktaturou moci. Kniha vychází v novém překladu.
+		
+		</p>
+		
+		<p style="padding-left: 30px; color: #777; font-style: italic; font-size:80%; text-align:right;">Zdroj anotace: <a href="http://www.obalkyknih.cz/" target="_blank">Web obalkyknih.cz</a></p>
+		<br/>
+		
+		<br/>
+	
+	
+	
+		<h3 class="pb-2">Dostupné zdroje</h3>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://knihy.abz.cz/prodej/devatenactset-osmdesat-ctyri-nineteen-eighty-four"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/loga_abzcz.png" /></a></div>
+				<div class="col-7"><a href="http://knihy.abz.cz/prodej/devatenactset-osmdesat-ctyri-nineteen-eighty-four">Knihy.ABZ.cz</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://search.mlp.cz/searchMKP.jsp?action=sTitul&key=3656265"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/logo_mlp.png" /></a></div>
+				<div class="col-7"><a href="http://search.mlp.cz/searchMKP.jsp?action=sTitul&key=3656265">Městská knihovna v Praze</a></div>
+				
+				<div class="col-2"><a href="http://search.mlp.cz/searchMKP.jsp?action=sTitul&key=3656265"><img src="https://www.obalkyknih.cz/file/cover/695002/thumbnail" /></a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://aleph.nkp.cz/F?func=find-c&ccl_term=sys=002220763&local_base=NKC01"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/logo_nkp.png" /></a></div>
+				<div class="col-7"><a href="http://aleph.nkp.cz/F?func=find-c&ccl_term=sys=002220763&local_base=NKC01">NK Praha</a></div>
+				
+				<div class="col-2"><a href="http://aleph.nkp.cz/F?func=find-c&ccl_term=sys=002220763&local_base=NKC01"><img src="https://www.obalkyknih.cz/file/cover/699268/thumbnail" /></a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://www.sckn.cz/ceskeknihy/html/titul.php?id=48924"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/loga_scks.png" /></a></div>
+				<div class="col-7"><a href="http://www.sckn.cz/ceskeknihy/html/titul.php?id=48924">Svaz českých nakladatelů a knihkupců</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://www.srovname.cz/george-orwell-devatenactset-osmdesat-ctyri-nineteen-eighty-four/srovnani-cen/k.1737816#utm_source=obalkyknih.cz&amp;utm_medium=referral&amp;utm_campaign=xmlkatalog"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/srovname-cz.png" /></a></div>
+				<div class="col-7"><a href="http://www.srovname.cz/george-orwell-devatenactset-osmdesat-ctyri-nineteen-eighty-four/srovnani-cen/k.1737816#utm_source=obalkyknih.cz&amp;utm_medium=referral&amp;utm_campaign=xmlkatalog">Srovname.cz</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://www.zbozi.cz/vyrobek/devatenactset-osmdesat-ctyri-nineteen-eighty-four-george-orwell"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/zbozi-cz.png" /></a></div>
+				<div class="col-7"><a href="http://www.zbozi.cz/vyrobek/devatenactset-osmdesat-ctyri-nineteen-eighty-four-george-orwell">Zboží.cz</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="http://muj-antikvariat.cz/kniha/nineteen-eighty-four-orwell-george-2011"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/muj-antikvariat-cz.png" /></a></div>
+				<div class="col-7"><a href="http://muj-antikvariat.cz/kniha/nineteen-eighty-four-orwell-george-2011">Můj antikvariát</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="https://www.cbdb.cz/kniha-54759-devatenactset-osmdesat-ctyri---nineteen-eightyfour-nineteen-eightyfour#9788025704851"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/logo-cbdb.png" /></a></div>
+				<div class="col-7"><a href="https://www.cbdb.cz/kniha-54759-devatenactset-osmdesat-ctyri---nineteen-eightyfour-nineteen-eightyfour#9788025704851">Československá bibliografická databáze</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="https://www.knihcentrum.cz/devatenactset-osmdesat-ctyri--nineteen-eighty-four"><img class="img-fluid max-height-small" src="https://www.knihcentrum.cz/Logos/KNIHCENTRUM.cz.png" /></a></div>
+				<div class="col-7"><a href="https://www.knihcentrum.cz/devatenactset-osmdesat-ctyri--nineteen-eighty-four">KNIHCENTRUM.cz</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="https://www.databazeknih.cz/knihy/devatenact-set-osmdesat-ctyri-nineteen-eighty-four-95809"><img class="img-fluid max-height-small" src="https://www.obalkyknih.cz/img/loga/databazeknih.png" /></a></div>
+				<div class="col-7"><a href="https://www.databazeknih.cz/knihy/devatenact-set-osmdesat-ctyri-nineteen-eighty-four-95809">Databázeknih.cz</a></div>
+				
+			</div>
+					<div class="row pb-2">
+				<div class="col-3"><a  href="https://www.antikavion.cz/kniha/nineteen-eighty-four-george-orwell-2011?produkt=1505879"><img class="img-fluid max-height-small" src="https://www.antikavion.cz/storage/images/logo_s.png" /></a></div>
+				<div class="col-7"><a href="https://www.antikavion.cz/kniha/nineteen-eighty-four-george-orwell-2011?produkt=1505879">Antikvariát Avion</a></div>
+				
+			</div>
+				<p class="clearfix pb-4"></p>
+	
+
+	
+
+	
+		<div id='current-rating-result'></div>
+		<form method="post" onsubmit="return view_review_onsubmit();">
+			<input type="hidden" name="review_book" value="111121546" />
+			<input type="hidden" name="review_rating" id="review_rating" value="0" />
+			
+				<h3>Přidat komentář a hodnocení</h3>
+			
+
+			<div class="form-group mb-2">
+				<label for="login_mail">Autor komentáře (127.0.0...)</label>
+				<input type="text" class="form-control rounded-0" id="review_name" name="review_name" placeholder="Vaše jméno" onkeydown="showRecaptcha()" required oninvalid="this.setCustomValidity('Zadejte jméno autora komentáře')" />
+			</div>
+
+			<div class="form-group mb-2">
+				<label for="star-rating">Hodnocení:</label>
+				<ul id="star-rating" class="star-rating">
+					<li><a href="#" onclick="vote(this,'111121546',1); return false;" title="1 z 5" class="s1">1</a></li>
+					<li><a href="#" onclick="vote(this,'111121546',2); return false;" title="2 z 5" class="s2">2</a></li>
+					<li><a href="#" onclick="vote(this,'111121546',3); return false;" title="3 z 5" class="s3">3</a></li>
+					<li><a href="#" onclick="vote(this,'111121546',4); return false;" title="4 z 5" class="s4">4</a></li>
+					<li><a href="#" onclick="vote(this,'111121546',5); return false;" title="5 z 5" class="s5">5</a></li>
+				</ul>
+			</div>
+
+			<div class="form-group mb-2">
+				<label for="review_text">Text komentáře:</label>
+				<textarea class="form-control" id="review_text" name="review_text" rows="5" onkeydown="showRecaptcha()" required oninvalid="this.setCustomValidity('Text komentáře nemůže být prázdný')"></textarea>
+			</div>
+
+			<div id="review_recaptcha"><div class="g-recaptcha" data-sitekey="6LdFDxgTAAAAAHQKFJBlrT351_ALAeQbq62dQLj6"></div></div>
+			<input type="submit" name="review_add" class="btn btn-primary mt-2" value="Přidat komentář / hodnocení" />
+		</form>
+		<script src='https://www.google.com/recaptcha/api.js?hl=cs'></script>
+	
+
+	<div class="py-4"></div>
+</div>
+<!-- $ body col -->
+
+<!-- ^ toc col -->
+<div id="col-toc" class="col-12 col-lg-3 col-xl-2">
+
+	
+
+	<div class="row">
+		
+
+		
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="row">
+		
+
+		
+	</div>
+
+
+
+
+
+</div>
+<!-- $ toc col -->
+
+</div>
+<!-- $ detail page body row -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="coverModal" tabindex="-1" aria-labelledby="coverModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="coverModalLabel">Náhled</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+		  <img id="coverImage" src="" class="img-fluid" alt="Náhled">
+		</div>
+	  </div>
+	</div>
+</div>
+
+
+
+
+
+<p style="height: 4em"></p>
+
+
+
+</div>
+
+
+
+<!-- id="main" -->
+
+
+
+</div>
+<!-- $ _header_main container row -->
+</div>
+<!-- $ _header_main content container -->
+
+</div>
+<!-- $ container-lg -->
+
+<footer class="py-4">
+	<div class="container-lg">
+		<div class="row">
+			<div class="col-12 col-sm-6 col-lg-3">
+				<h4>Informace pro uživatele</h4>
+				<ul>
+					<li><a href="/for_libraries">Pro knihovny</a></li>
+					<li><a href="/for_publishers">Pro nakladatele</a></li>
+					<li><a href="/for_developers">Pro dodavatele IS</a></li>
+					<li><a href="/for_patrons">Pro čtenáře</a></li>
+				</ul>
+			</div>
+			
+			<div class="col-12 col-sm-6 col-lg-3">
+				<h4>Kontaktní informace</h4>
+				<ul>
+					<li class="mail okcz-gray-dark"><span class="fas fa-envelope"></span>&nbsp;&nbsp;<a href="mailto:info&#64;obalkyknih.cz">info&#64;obalkyknih.cz</a></li>
+				</ul>
+			</div>
+			
+			<div class="col-12 col-sm-6 col-lg-2">
+				<h4>O projektu</h4>
+				<ul>
+					<li><a href="/about#tos">Podmínky užití</a></li>
+					<li><a href="/about#o_aplikace">O projektu</a></li>
+				</ul>
+			</div>
+
+			<div class="col-12 col-sm-6 col-lg-4">
+				<h4>Projekt spravují:</h4>
+				<a href="https://www.mzk.cz/" class="author mzk"><span></span>Moravská zemská knihovna</a>
+				<a href="https://www.cbvk.cz/" class="author jvk"><span></span>Jihočeská vědecká knihovna v Českých Budějovicích</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 text-end">
+				<span class="okcz-gray-light">&copy; Copyright 2008-2026</span>
+				<span class="okcz-gray-light"><a href="https://obalkyknih.cz">Obalkyknih.cz</a></span>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script type="text/javascript" src="/js/lightbox.js"></script>
+
+<a class="visually-hidden" href="https://www.toplist.cz"><script language="JavaScript" type="text/javascript" charset="utf-8">
+<!--
+document.write('<img src="https://toplist.cz/dot.asp?id=1806379&http='+
+encodeURIComponent(document.referrer)+'&t='+encodeURIComponent(document.title)+'&l='+encodeURIComponent(document.URL)+
+'&wi='+encodeURIComponent(window.screen.width)+'&he='+encodeURIComponent(window.screen.height)+'&cd='+
+encodeURIComponent(window.screen.colorDepth)+'" width="1" height="1" border=0 alt="TOPlist" />');
+//--></script><noscript><img src="https://toplist.cz/dot.asp?id=1806379&njs=1" border="0" alt="TOPlist" width="1" height="1" /></noscript></a>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5349443-1");
+pageTracker._trackPageview();
+</script>
+
+</body>
+</html>
+
+
