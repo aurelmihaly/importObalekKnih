@@ -302,10 +302,34 @@ async function extractBookDetail(page) {
   }
 
   try {
-    genre = await page.$$eval(
-      'a[href*="/zanry/"]',
-      els => [...new Set(els.map(e => e.innerText.trim()).filter(Boolean))]
-    );
+    genre = await page.evaluate(() => {
+      const normalize = value => String(value || "").replace(/\s+/g, " ").trim();
+
+      const isInsideBookTagsBox = element => {
+        let node = element;
+
+        while (node && node !== document.body) {
+          const text = normalize(node.innerText || "").toLowerCase();
+
+          // Pravý sloupec se štítky má nadpis „Štítky knihy“.
+          // Tyto odkazy / štítky nechceme ukládat jako žánry.
+          if (text.includes("štítky knihy") || text.includes("stitky knihy")) {
+            return true;
+          }
+
+          node = node.parentElement;
+        }
+
+        return false;
+      };
+
+      const genreLinks = [...document.querySelectorAll('a[href*="/zanry/"]')]
+        .filter(link => !isInsideBookTagsBox(link))
+        .map(link => normalize(link.innerText))
+        .filter(Boolean);
+
+      return [...new Set(genreLinks)];
+    });
   } catch {}
 
   const pageText = await page.evaluate(() => document.body.innerText);
@@ -599,10 +623,6 @@ async function run() {
       continue;
     }
 
-    if (!hasMissingBookData(data)) {
-      console.log("✅ Přeskakuji, kniha už má coverUrl, genre, pages i description:", data.title);
-      continue;
-    }
 
     await new Promise(r => setTimeout(r, 2000 + Math.random() * 3000));
 
@@ -640,13 +660,13 @@ async function run() {
         updateData.coverUrl = firebaseImageUrl;
       }
 
-      // pojistka: žánry jen pokud existují
+      // žánry zapisuj jen ze skutečné řady žánrů, ne ze sekce „Štítky knihy“
       if (Array.isArray(result.genre) && result.genre.length > 0) {
         updateData.genre = result.genre;
       }
 
-      // počet stran zapisuj vždy, i když je null
-      updateData.pages = result.pages ?? null;
+      // počet stran zapisuj vždy pro každou znovu projetou knihu
+      updateData.pages = Number.isInteger(result.pages) && result.pages > 0 ? result.pages : null;
 
       // publisher si ukládej vždy pro debug
       if (result.publisher) {
